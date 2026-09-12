@@ -1,5 +1,8 @@
-#include <boost/hana.hpp>
-#include <type_traits>
+#include <boost/hana/accessors.hpp>
+#include <boost/hana/at.hpp>
+#include <boost/hana/define_struct.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/second.hpp>
 
 struct large_record {
     BOOST_HANA_DEFINE_STRUCT(large_record,
