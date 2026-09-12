@@ -23,7 +23,7 @@ source:
     - patches/0001-Add-default-value-for-cxx-and-cxxflags-options-for-t.patch
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
@@ -32,7 +32,8 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - python {{ python_min }}.* *_cpython    # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
-    - ruby *
+    - ruby *  # [not (win and arm64)]
+    - python {{ python_min }}.* *_cpython  # [win and arm64]
   host:
     - icu               # [unix]
     - liblzma-devel     # [unix]

@@ -18,11 +18,20 @@ if %ERRORLEVEL% neq 0 exit 1
 
 mkdir temp_prefix
 
+:: Boost.Build separates the address width from the instruction set.
+set "BOOST_ADDRESS_MODEL=%ARCH%"
+set "BOOST_ARCHITECTURE=x86"
+if "%target_platform%" == "win-arm64" (
+    set "BOOST_ADDRESS_MODEL=64"
+    set "BOOST_ARCHITECTURE=arm"
+)
+
 :: Build step
 .\b2 install ^
     --prefix=temp_prefix ^
     toolset=msvc-%VS_MAJOR%.0 ^
-    address-model=%ARCH% ^
+    address-model=%BOOST_ADDRESS_MODEL% ^
+    architecture=%BOOST_ARCHITECTURE% ^
     variant=release ^
     threading=multi ^
     link=shared ^
@@ -57,4 +66,9 @@ rmdir /s /q temp_prefix\lib\cmake\boost_python-%PKG_VERSION%
 rmdir /s /q temp_prefix\lib\cmake\boost_numpy-%PKG_VERSION%
 
 set MAX_NUMBER_OF_MEMBERS=200
-erb boost\hana\detail\struct_macros.hpp.erb > temp_prefix\include\boost\hana\detail\struct_macros.hpp
+if "%target_platform%" == "win-arm64" (
+    "%BUILD_PREFIX%\python.exe" "%RECIPE_DIR%\render_hana.py" boost\hana\detail\struct_macros.hpp.erb temp_prefix\include\boost\hana\detail\struct_macros.hpp --members 200
+) else (
+    erb boost\hana\detail\struct_macros.hpp.erb > temp_prefix\include\boost\hana\detail\struct_macros.hpp
+)
+if %ERRORLEVEL% neq 0 exit 1

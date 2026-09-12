@@ -14,12 +14,21 @@ rmdir /s /q temp_prefix
 
 mkdir build-py
 
+:: Boost.Build separates the address width from the instruction set.
+set "BOOST_ADDRESS_MODEL=%ARCH%"
+set "BOOST_ARCHITECTURE=x86"
+if "%target_platform%" == "win-arm64" (
+    set "BOOST_ADDRESS_MODEL=64"
+    set "BOOST_ARCHITECTURE=arm"
+)
+
 :: Build step
 .\b2 install ^
     --build-dir=build-py ^
     --prefix=%LIBRARY_PREFIX% ^
     toolset=msvc-%VS_MAJOR%.0 ^
-    address-model=%ARCH% ^
+    address-model=%BOOST_ADDRESS_MODEL% ^
+    architecture=%BOOST_ARCHITECTURE% ^
     variant=release ^
     threading=multi ^
     link=shared ^
