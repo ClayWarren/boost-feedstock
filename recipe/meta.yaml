@@ -33,14 +33,15 @@ requirements:
     - python {{ python_min }}.* *_cpython    # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - ruby *  # [not (win and arm64)]
-    - python {{ python_min }}.* *_cpython  # [win and arm64]
+    - python {{ python_min }}.* *_cp{{ python_min | replace(".", "") }}  # [win and arm64]
   host:
     - icu               # [unix]
     - liblzma-devel     # [unix]
     - bzip2
     - zlib
     - zstd
-    - python {{ python_min }}.* *_cpython
+    - python {{ python_min }}.* *_cpython  # [not (win and arm64)]
+    - python {{ python_min }}.* *_cp{{ python_min | replace(".", "") }}  # [win and arm64]
     - numpy
 
 outputs:
