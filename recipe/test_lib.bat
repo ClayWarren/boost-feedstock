@@ -14,7 +14,7 @@ if "%target_platform%" == "win-arm64" (
     if errorlevel 1 exit /b 1
     test_context_coroutine.exe
     if errorlevel 1 exit /b 1
-    cl.exe /EHsc /MD /std:c++20 /I%LIBRARY_INC% test_hana_large.cpp
+    cl.exe /EHsc /MD /std:c++20 /Zc:preprocessor /I%LIBRARY_INC% test_hana_large.cpp
     if errorlevel 1 exit /b 1
     test_hana_large.exe
     if errorlevel 1 exit /b 1
