@@ -17,9 +17,12 @@ mkdir build-py
 :: Boost.Build separates the address width from the instruction set.
 set "BOOST_ADDRESS_MODEL=%ARCH%"
 set "BOOST_ARCHITECTURE=x86"
+set "BOOST_PCH=on"
 if "%target_platform%" == "win-arm64" (
     set "BOOST_ADDRESS_MODEL=64"
     set "BOOST_ARCHITECTURE=arm"
+    :: Avoid MSVC PCH virtual-memory allocation failures on the ARM64 runner.
+    set "BOOST_PCH=off"
 )
 
 :: Build step
@@ -29,6 +32,7 @@ if "%target_platform%" == "win-arm64" (
     toolset=msvc-%VS_MAJOR%.0 ^
     address-model=%BOOST_ADDRESS_MODEL% ^
     architecture=%BOOST_ARCHITECTURE% ^
+    pch=%BOOST_PCH% ^
     variant=release ^
     threading=multi ^
     link=shared ^
