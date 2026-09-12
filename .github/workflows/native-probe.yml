@@ -39,6 +39,8 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: boost-arm64-package
-          path: C:\bld\**\*.conda
+          path: |
+            C:\bld\win-arm64\*.conda
+            C:\bld\noarch\*.conda
           if-no-files-found: warn
           retention-days: 7
