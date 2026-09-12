@@ -21,6 +21,7 @@ source:
   patches:
     # ensure our compiler flags get used during bootstrapping
     - patches/0001-Add-default-value-for-cxx-and-cxxflags-options-for-t.patch
+    - patches/0002-use-arm64-fcontext-assembly.patch  # [win and arm64]
 
 build:
   number: 2

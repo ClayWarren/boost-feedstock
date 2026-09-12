@@ -10,6 +10,10 @@ test_iostreams_zlib.exe
 if %ERRORLEVEL% neq 0 exit 1
 
 if "%target_platform%" == "win-arm64" (
+    cl.exe /EHsc /MD /std:c++20 /DBOOST_ALL_DYN_LINK /I%LIBRARY_INC% test_context_coroutine.cpp /link /libpath:%LIBRARY_LIB%
+    if errorlevel 1 exit /b 1
+    test_context_coroutine.exe
+    if errorlevel 1 exit /b 1
     cl.exe /EHsc /MD /std:c++20 /I%LIBRARY_INC% test_hana_large.cpp
     if errorlevel 1 exit /b 1
     test_hana_large.exe
